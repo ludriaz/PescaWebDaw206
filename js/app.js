@@ -215,8 +215,9 @@ document.addEventListener("DOMContentLoaded", () => {
         function iniciarCamara(deviceId = null) {
             const constraints = { video: deviceId ? { deviceId: { exact: deviceId } } : true };
 
+            
             video.srcObject = null;
-            video.removeEventListener("loadeddata");
+            //video.removeEventListener("loadeddata");
             
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(stream => {
