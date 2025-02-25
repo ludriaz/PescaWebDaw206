@@ -213,11 +213,12 @@ document.addEventListener("DOMContentLoaded", () => {
         contenedorSubida.appendChild(preview);
         
         function iniciarCamara(deviceId = null) {
-            const constraints = { video: deviceId ? { deviceId: { exact: deviceId } } : true };
-
             
-            video.srcObject = null;
-            //video.removeEventListener("loadeddata");
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+            }
+            
+            const constraints = { video: deviceId ? { deviceId: { exact: deviceId } } : true };
             
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(stream => {
@@ -244,18 +245,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (cameras.length > 1) {
                         const selectCamera = document.createElement("select");
                         selectCamera.id = "cameraSelect";
-
-                        const buttonCamera = document.createElement("button");
-                        buttonCamera.textContent = "Seleccionar camara";
-                        buttonCamera.addEventListener("click", () => {
-                            iniciarCamara(selectCamera.selectedOptions[0].value);
+                        selectCamera.addEventListener("change", (event) => {
+                            iniciarCamara(event.target.value);
                         });
                         
-                        const option = document.createElement("option");
-                        option.value = 0;
-                        option.textContent = "Selecionar camara";
-                        selectCamera.appendChild(option)
-
+                        const defaultOption = document.createElement("option");
+                        defaultOption.text = "Selecciona una cámara";
+                        defaultOption.value = "";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        selectCamera.appendChild(defaultOption);
+              
                         cameras.forEach(camera => {
                             const option = document.createElement("option");
                             option.value = camera.deviceId;
@@ -264,7 +264,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                         
                         contenedorCamara.appendChild(selectCamera);
-                        contenedorCamara.appendChild(buttonCamera);
                     }else{
                         iniciarCamara(cameras[0]?.deviceId || null);
                     }
