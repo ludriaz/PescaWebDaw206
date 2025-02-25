@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const buttonCamera = document.createElement("button");
                         buttonCamera.textContent = "Seleccionar camara";
                         buttonCamera.addEventListener("click", () => {
-                            iniciarCamara(selectCamera.selectedOptions.value);
+                            iniciarCamara(selectCamera.selectedOptions[0].value);
                         });
                         
                         const option = document.createElement("option");
