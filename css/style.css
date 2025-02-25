@@ -1,0 +1,302 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    background: url('../assets/images/FONDO.jpg') no-repeat center center/cover;
+    color: black;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el cuerpo ocupe toda la altura de la pantalla */
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+header, footer {
+    background-color:   #3C6173;
+    color: white;
+    text-align: center;
+    padding: 1vh;
+    width: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 15px 30px;
+}
+
+.logo{
+    width: 50px;
+    margin-right:  5px;
+}
+
+h1 {
+    text-align: center;
+    color: #BAD9D6;
+    font-size: 2.5rem;
+    /*margin-bottom: 2rem;*/
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+form {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+    padding: 4vh;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 1.5vh;
+    margin-bottom: 2vh;
+    border: 2px solid #7C9EA6;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #eee;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+button {
+    width: 100%;
+    padding: 1.5vh;
+    background: #1BBFBF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 1.5vh;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+button:hover {
+    background: #04ADBF;
+}
+
+.navbar {
+    width: 100%;
+    background-color: #274955;
+    display: flex;
+    justify-content: center;
+    padding: 1vh;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+.navbar button {
+    background-color: #7C9EA6;
+    color: white;
+    border: none;
+    padding: 1.5vh 2vw;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 1vw;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+.navbar button:hover {
+    background-color: #1BBFBF;
+}
+
+main {
+    flex: 1; /* Para que main ocupe el espacio restante */
+    display: flex;
+    flex-direction: column; /* Para alinear verticalmente en pantallas pequeñas */
+    align-items: center; /* Centrar horizontalmente */
+    margin: 2vh 0;
+    padding: 2vh;
+    width: 100%;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+.contenedor {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2vh;
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 20px;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+.columna {
+    flex: 1;
+    min-width: 280px;
+    padding: 2vh;
+    background-color: #eee;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+.columna h2 {
+    color: #004080;
+    margin-bottom: 10px;
+}
+
+footer {
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+.contenedor-mapa {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2vh;
+    padding: 2vh;
+    width: 90%; /* Ajustado a 90% para mejor responsividad */
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box; /* Añadido box-sizing */
+}
+
+#map, #tiempoDiv {
+    flex: 1;
+    height: 50vh;
+    min-width: 45%;
+    max-width: 45%;
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.tiempo-actual {
+    background-color: #eee;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    font-family: sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    min-width: 45%;
+    max-width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+#tituloPrevision{
+    text-align: center;
+}
+
+.contenedor-clima{
+    background-color:  #eee;
+    opacity: 0.8;
+    border-radius:  15px;
+    padding-bottom: 20px;
+}
+
+#contenedorIdentificacion {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h2 {
+    color: #04ADBF;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.seccion-captura,
+.seccion-subida {
+    min-width: 380px;
+    width: 45%; /* Ancho para ocupar casi la mitad del contenedor */
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    box-sizing: border-box; /* Incluye padding y border en el ancho */
+}
+
+h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.contenedor-camara {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 320px; /* Ancho fijo para el contenedor de la cámara */
+    margin: 0 auto; /* Centra el contenedor de la cámara */
+}
+
+.imagen-estandar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 320px; /* Ancho fijo para el contenedor de la cámara */
+    margin: 0 auto;
+    border: 2px solid black;
+    border-radius: 5px; /* Centra el contenedor de la cámara */
+    /* Otros estilos que desees aplicar */
+}
+
+video, canvas {
+    width: 100%; /* Ocupa todo el ancho del contenedor .contenedor-camara */
+    max-width: 100%; /* No excede el ancho máximo del contenedor */
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+
+.contenedor-subida {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 320px; /* Ancho fijo para el contenedor de la cámara */
+    margin: 0 auto; /* Centra el contenedor de la cámara */
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+#status {
+    font-style: italic;
+    color: #0057b3;
+}
+
+#results {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #132646;
+    padding-bottom: 20px;
+    text-align: center;
+}
