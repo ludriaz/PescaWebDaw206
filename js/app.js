@@ -251,9 +251,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             selectCamera.appendChild(option);
                         });
                         
-                        document.body.appendChild(selectCamera);
+                        contenedorCamara.appendChild(selectCamera);
+                    }else{
+                        iniciarCamara(cameras[0]?.deviceId || null);
                     }
-                    iniciarCamara(cameras[0]?.deviceId || null);
+
                 })
                 .catch(err => console.error("Error al obtener cámaras:", err));
         }
