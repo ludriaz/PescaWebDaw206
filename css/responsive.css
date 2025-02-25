@@ -1,104 +1,101 @@
-
 @media screen and (max-width: 768px) {
+  main {
+    flex-direction: column; /* Alinea los elementos verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    padding: 1vh; /* Reduce el padding en pantallas pequeñas */
+  }
 
-    main {
-        flex-direction: column; /* Alinea los elementos verticalmente */
-        align-items: center; /* Centra horizontalmente */
-        padding: 1vh; /* Reduce el padding en pantallas pequeñas */
-    }
+  .contenedor,
+  #contenedorIdentificacion {
+    flex-direction: column; /* Apila las columnas en pantallas pequeñas */
+    align-items: center; /* Centra los elementos horizontalmente */
+  }
 
-    .contenedor, #contenedorIdentificacion {
-        flex-direction: column; /* Apila las columnas en pantallas pequeñas */
-        align-items: center; /* Centra los elementos horizontalmente */
-    }
+  .columna {
+    width: 90%; /* Ocupa casi todo el ancho en pantallas pequeñas */
+    min-width: auto; /* Permite que las columnas se ajusten al ancho */
+    margin-bottom: 2vh; /* Espacio entre columnas */
+  }
 
-    .columna {
-        width: 90%; /* Ocupa casi todo el ancho en pantallas pequeñas */
-        min-width: auto; /* Permite que las columnas se ajusten al ancho */
-        margin-bottom: 2vh; /* Espacio entre columnas */
-    }
+  .contenedor-mapa {
+    flex-direction: column; /* Apila el mapa y el tiempo en pantallas pequeñas */
+    align-items: center; /* Centra los elementos horizontalmente */
+  }
 
-    .contenedor-mapa {
-        flex-direction: column; /* Apila el mapa y el tiempo en pantallas pequeñas */
-        align-items: center; /* Centra los elementos horizontalmente */
-    }
+  /* Ajustes para el mapa */
+  #map {
+    width: 100%; /* Cambié a 100% para evitar el desbordamiento */
+    margin: 10px auto;
+    height: 40vh;
+    min-width: 320px;
+    min-height: 200px;
+    box-sizing: border-box; /* Asegura que no se desborde */
+  }
 
-    /* Ajustes para el mapa */
-    #map {
-        width: 100%; /* Cambié a 100% para evitar el desbordamiento */
-        margin: 10px auto;
-        height: 40vh;
-        min-width: 320px;
-        min-height: 200px;
-        box-sizing: border-box; /* Asegura que no se desborde */
-    }
+  /* Ajustes para el div del tiempo */
+  #tiempoDiv {
+    width: 100%; /* Cambié a 100% para evitar el desbordamiento */
+    margin: 10px auto;
+    height: 40vh;
+    min-width: 320px;
+    min-height: 100px;
+    box-sizing: border-box; /* Asegura que no se desborde */
+  }
 
-    /* Ajustes para el div del tiempo */
-    #tiempoDiv {
-        width: 100%; /* Cambié a 100% para evitar el desbordamiento */
-        margin: 10px auto;
-        height: 40vh;
-        min-width: 320px;
-        min-height: 100px;
-        box-sizing: border-box; /* Asegura que no se desborde */
-    }
+  .tiempo-actual {
+    min-width: auto; /* Permite que se ajuste al ancho */
+    max-width: none; /* Elimina el ancho máximo */
+  }
 
-    .tiempo-actual {
-        min-width: auto; /* Permite que se ajuste al ancho */
-        max-width: none; /* Elimina el ancho máximo */
-    }
+  /* Ocultar elementos que no sean necesarios en pantallas pequeñas */
+  .navbar {
+    flex-direction: column; /* Alinea los botones verticalmente */
+    align-items: center; /* Centra los botones horizontalmente */
+  }
 
-    /* Ocultar elementos que no sean necesarios en pantallas pequeñas */
-    .navbar {
-        flex-direction: column; /* Alinea los botones verticalmente */
-        align-items: center; /* Centra los botones horizontalmente */
-    }
+  .navbar button {
+    margin: 1vh 0; /* Margen arriba y abajo para separar botones */
+    width: 90%; /* Ancho completo para los botones */
+  }
 
-    .navbar button {
-        margin: 1vh 0; /* Margen arriba y abajo para separar botones */
-        width: 90%; /* Ancho completo para los botones */
-    }
+  h1 {
+    font-size: 2rem; /* Reduce el tamaño del título */
+  }
 
-    h1 {
-        font-size: 2rem; /* Reduce el tamaño del título */
-    }
+  form {
+    width: 90%; /* Ajusta el ancho del formulario */
+    padding: 2vh;
+  }
 
-    form {
-        width: 90%; /* Ajusta el ancho del formulario */
-        padding: 2vh;
-    }
+  input[type="email"],
+  input[type="password"],
+  button {
+    font-size: 1rem; /* Ajusta el tamaño de la fuente */
+  }
 
-    input[type="email"],
-    input[type="password"],
-    button {
-        font-size: 1rem; /* Ajusta el tamaño de la fuente */
-    }
+  #contenedorIdentificacion {
+    display: flex;
+    width: auto;
+    text-align: center;
+    border-radius: 10px;
+  }
 
-    #contenedorIdentificacion {
-       display: flex;
-        width: auto;
-        text-align: center;
-        border-radius: 10px;
-    }
-    
-    
-    .seccion-captura,
-    .seccion-subida {
-        width: 100%; /* Ocupa casi todo el ancho en pantallas pequeñas */
-        min-width: auto; /* Permite que las columnas se ajusten al ancho */
-        margin-bottom: 2vh; /* Espacio entre columnas */
-        
-    }
-    .contenedor-camara, .contenedor-subida{
-        width: 260px;
-    }
-    .contenedor-camara img, .contenedor-subida img {
-        width: max-content;
-    } 
-    #results{
-    
+  .seccion-captura,
+  .seccion-subida {
+    width: 100%; /* Ocupa casi todo el ancho en pantallas pequeñas */
+    min-width: auto; /* Permite que las columnas se ajusten al ancho */
+    margin-bottom: 2vh; /* Espacio entre columnas */
+  }
+  .contenedor-camara,
+  .contenedor-subida {
+    width: 260px;
+  }
+  .contenedor-camara img,
+  .contenedor-subida img {
+    width: max-content;
+  }
+  #results {
     word-wrap: break-word;
     width: 96%;
-
-    }
+  }
 }
