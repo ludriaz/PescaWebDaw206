@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
                 })
-                .catch(err => alert("Error al obtener cámaras:", err));
+                .catch(err => console.log("Error al obtener cámaras:", err));
         }
         
         document.getElementById('capture').addEventListener('click', () => {
