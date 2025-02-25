@@ -1,4 +1,5 @@
-//Configuracion de tablas dinamicas
+//Configuracion de tablas dinamicas y obtencion del tiempo
+`use strict`
 /**
  * Obtiene los datos del clima en base a latitud y longitud con la API Open-Meteo
  * Devuelve un JSON con una selección de datos filtrada a partir de la respuesta

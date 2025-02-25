@@ -33,9 +33,8 @@ const auth = getAuth(app); // Obtiene la instancia del servicio de autenticació
 const loginForm = document.getElementById('loginForm');
 const messageContainerError = document.getElementById('message-error');
 const messageContainerSuccess = document.getElementById('message-success');
-const registerButton = document.getElementById('registerButton');
-const btnRecuperar = document.getElementById("btnRecuperar");
-const logoutButton = document.getElementById("logoutButton");
+
+
 // Función para mostrar mensajes
 function mostrarMensaje(tipo, mensaje) {
     if (tipo === 'error' || tipo === 'registro') {
@@ -52,43 +51,55 @@ function mostrarMensaje(tipo, mensaje) {
     }
 
 }
-
+//Muestra un mensaje en la consola cuando hay un cambio en el estado de autenticación.
 auth.onAuthStateChanged((user)=>{
  console.log("Cambio pagina",user);
 });
 
 // Función para obtener mensajes de error personalizados
 function obtenerMensajeError(errorCode) {
-    switch (errorCode) {
-        case 'auth/invalid-email':
+    switch (errorCode) { 
+        // Evaluamos el código de error proporcionado por Firebase Authentication
+        case 'auth/invalid-email': 
+            // Si el código de error indica que el correo electrónico es inválido
             return 'El correo electrónico ingresado no es válido.';
-        case 'auth/weak-password':
+        
+        case 'auth/weak-password': 
+            // Si la contraseña ingresada es demasiado débil (menos de 6 caracteres)
             return 'La contraseña debe tener al menos 6 caracteres.';
-        case 'auth/email-already-in-use':
+        
+        case 'auth/email-already-in-use': 
+            // Si el correo ya está registrado en Firebase Authentication
             return 'Este correo electrónico ya está en uso. Por favor, utiliza otro correo o inicia sesión.';
-        case 'auth/invalid-credential':
+        
+        case 'auth/invalid-credential': 
+            // Si las credenciales ingresadas son incorrectas (por ejemplo, contraseña incorrecta)
             return 'Contraseña incorrecta, pruebe de nuevo o trate de recuperarla';
-        default:
+        
+        default: 
+            // Si el código de error no coincide con ninguno de los casos anteriores
             return 'Ocurrió un error durante la autenticación. Inténtalo de nuevo más tarde.';
     }
 }
 
 // REGISTRAR NUEVOS USUARIOS
  export async function registrarUsuario() {
+    //Captura los valores del formulario
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-
+    //Si faltase algun valor entraria en el IF
     if (!email || !password) {
         mostrarMensaje('error', 'Por favor, ingresa un correo y una contraseña para registrarte.');
         return;
     }
 
     try {
+        //Trata de registrar nuevo usuarios a traves de los valores recogidos anteriormente
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         mostrarMensaje('exito', 'Registro exitoso. ¡Bienvenido!');
         console.log('Nuevo usuario:', userCredential.user.email);
 
-        // Redirigir al usuario al dashboard
+        // Redirigir al usuario al dashboard en caso de que haya podido registrarlo
         window.location.href = "dashboard.html";
 
     } catch (error) {
@@ -97,12 +108,8 @@ function obtenerMensajeError(errorCode) {
     }
 }
 
-// Asigna la función al botón de registro
-if (registerButton) {
-registerButton.addEventListener('click', registrarUsuario);
-}
 
-async function iniciarSesion(event) {
+export async function iniciarSesion(event) {
     event.preventDefault(); // Evita el envío automático del formulario
 
     const email = document.getElementById('email').value;
@@ -136,21 +143,15 @@ async function iniciarSesion(event) {
     }
 }
 
-// Asigna la función al evento submit del formulario
-if(loginForm){
-loginForm.addEventListener('submit', iniciarSesion);
-}
 
-async function recuperarContrasena(event) {
+//FUNCION PARA RECUPERAR CONTRASEÑA
+export async function recuperarContrasena(event) {
     event.preventDefault();
-
     const email = document.getElementById("emailRecuperar").value.trim();
-
     if (!email) {
         alert("Por favor, ingresa un correo válido.");
         return;
     }
-
     try {
         await sendPasswordResetEmail(auth, email);
         alert("Correo de recuperación enviado. Revisa tu bandeja de entrada.");
@@ -160,22 +161,17 @@ async function recuperarContrasena(event) {
     }
 }
 
-// Asigna la función al botón de recuperación de contraseña
-if (btnRecuperar) {
-btnRecuperar.addEventListener("click", recuperarContrasena);
-}
-
-async function cerrarSesion() {
+//CIERRE DE SESION
+//Funcion que cierra la sesion actual
+export async function cerrarSesion() {
     try {
         await signOut(auth);
         console.log('Sesión cerrada');
+        //Redirige al index
         window.location.href = 'index.html';
     } catch (error) {
         console.error('Error al cerrar sesión:', error);
     }
 }
 
-// Asigna la función al botón de cierre de sesión
-if(logoutButton){
-logoutButton.addEventListener('click', cerrarSesion);
-}
+

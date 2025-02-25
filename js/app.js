@@ -6,6 +6,11 @@ import { iniciarMapa } from './maps.js';
 import { obtenerDatosMeteorologicos } from './tables.js';
 import { mostrarDatosEnTabla } from './tables.js';
 import {classifyImage} from './tensorflow.js';
+import { recuperarContrasena } from './auth.js';
+import { registrarUsuario } from './auth.js';
+import { iniciarSesion } from './auth.js';
+import { cerrarSesion } from './auth.js';
+
 
 // Lógica de aparición de formulario de recuperar contraseña.
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,7 +18,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const recuperarButton = document.getElementById("recuperarButton");
     const recuperarForm = document.getElementById("recuperarContra");
     const loginForm = document.getElementById("loginForm");
+    const registerButton = document.getElementById('registerButton');
     
+    // Asigna la función al botón de registro
+    if (registerButton) {
+    registerButton.addEventListener('click', registrarUsuario);
+    }
+    // Asigna la función al evento submit del formulario
+    if(loginForm){
+    loginForm.addEventListener('submit', iniciarSesion);
+    }
+    // Asigna la función al botón de cierre de sesión en caso de que exista el boton
+    if(logoutButton){
+    logoutButton.addEventListener('click', cerrarSesion);
+    }
 
     // Verificar si el botón de recuperar contraseña existe antes de agregar el evento
     if (recuperarButton) {
@@ -26,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    //Verificar si el boton de vo
+    //Verificar si el boton de volver existe antes de agregar el evento
     const btnVolver = document.getElementById("volverButton");
     if (btnVolver) {
         btnVolver.addEventListener("click", () =>{
@@ -36,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Verificar si el botón de recuperar contraseña existe antes de agregar el evento de redirección
     const btnRecuperar = document.getElementById("btnRecuperar");
     if (btnRecuperar) {
+        btnRecuperar.addEventListener("click", recuperarContrasena);
         btnRecuperar.addEventListener("click", () => {
             setTimeout(() => {
                 window.location.href = "index.html";
