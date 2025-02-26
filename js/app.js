@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const recuperarForm = document.getElementById("recuperarContra");
   const loginForm = document.getElementById("loginForm");
   const registerButton = document.getElementById("registerButton");
+  const logoutButton = document.getElementById("logoutButton");
 
   // Asigna la función al botón de registro
   if (registerButton) {
@@ -60,14 +61,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  //Añadimos el evento a todos los botones para realizar los cambios en el HTML y mostrar el contenedor clima
   document.querySelectorAll("#btnMostrarClima").forEach((boton) => {
     boton.addEventListener("click", crearContenedorClima);
   });
 
+  //Añadimos el evento a todos los botones para realizar los cambios en el HTML y mostrar el contenedor de especies
   document.querySelectorAll("#btnIdentificarEpecies").forEach((boton) => {
     boton.addEventListener("click", crearContenedorEspecie);
   });
 
+ document.querySelectorAll("#btnMostrarMapa").forEach((boton) => {
+    boton.addEventListener("click", crearContenedorMapa);
+  });
+
+
+  //Funcion asincrona para crear el contenedor del clima
   async function crearContenedorClima() {
     const main = document.querySelector("main");
     main.innerHTML = "";
@@ -97,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //Funcion asincrona para realizar cambios en el HTML y crear el apartado relacionado con TENSORFLOW
   async function crearContenedorEspecie() {
     // Limpiar el contenido del contenedor 'main'
     const main = document.querySelector("main");
@@ -233,15 +243,17 @@ document.addEventListener("DOMContentLoaded", () => {
     preview.style.maxWidth = "100%";
     contenedorSubida.appendChild(preview);
 
+    //Funcion para iniciar la camara del usuario
     function iniciarCamara(deviceId = null) {
+      //Si el elemento video tiene alguna transmision la detiene
       if (video.srcObject) {
         video.srcObject.getTracks().forEach((track) => track.stop());
       }
-
+      //Tratamos de acceder a una camara especifica
       const constraints = {
         video: deviceId ? { deviceId: { exact: deviceId } } : true,
       };
-
+      //Se pide permiso para acceder a la cámara según las restricciones configuradas.
       navigator.mediaDevices
         .getUserMedia(constraints)
         .then((stream) => {
@@ -257,31 +269,35 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((err) => console.error("Error al acceder a la cámara:", err));
     }
 
+    //FUNCION PARA OBTENER TODAS LAS CAMARAS POSIBLES
     function obtenerCamaras() {
       navigator.mediaDevices
         .getUserMedia({ video: true }) // Solicita permisos primero
         .then(() => {
+          //Obtiene la lista de dispositivos multimedia disponibles
           return navigator.mediaDevices.enumerateDevices();
         })
+        //Filtra solo los dispositivos de video (cámaras)
         .then((devices) => {
           const cameras = devices.filter(
             (device) => device.kind === "videoinput"
           );
-
+          //Si hay más de una cámara, se crea un elemento <select> para que el usuario pueda elegir cuál usar.
           if (cameras.length > 1) {
             const selectCamera = document.createElement("select");
             selectCamera.id = "cameraSelect";
+            //Se crea un escuchador para que cuando el usuario cambie el valor en el select llame a iniciar camara.
             selectCamera.addEventListener("change", (event) => {
               iniciarCamara(event.target.value);
             });
-
+            //Opcion por defecto
             const defaultOption = document.createElement("option");
             defaultOption.text = "Selecciona una cámara";
             defaultOption.value = "";
             defaultOption.disabled = true;
             defaultOption.selected = true;
             selectCamera.appendChild(defaultOption);
-
+            //Opcion para las diferentes camaras que se encuentren
             cameras.forEach((camera) => {
               const option = document.createElement("option");
               option.value = camera.deviceId;
@@ -292,18 +308,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
             contenedorCamara.appendChild(selectCamera);
           } else {
+            //Si solo hay una camara
             iniciarCamara(cameras[0]?.deviceId || null);
           }
         })
         .catch((err) => console.log("Error al obtener cámaras:", err));
     }
-
+    // Inicia el proceso de selección de cámara y prepara el área de captura.
     document.getElementById("capture").addEventListener("click", () => {
       obtenerCamaras();
       canvas.style.display = "block";
       captureButton.style.display = "none";
     });
-
+    //Captura una foto desde la cámara y la procesa,  para reconocimiento.
     document.getElementById("takePhoto").addEventListener("click", () => {
       if (video.videoWidth === 0 || video.videoHeight === 0) {
         console.error(
@@ -311,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         return;
       }
-
+      //Dibuja el fotograma actual del video en el <canvas>
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       resultsDiv.innerHTML = "Procesando imagen...";
       classifyImage(canvas);
@@ -327,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
           img.onload = function () {
             // Una vez que la imagen esté cargada, la clasificamos
             resultsDiv.innerHTML = "Procesando imagen...";
-            classifyImage(img); // Llamar a la función para clasificar la imagen (debe estar definida)
+            classifyImage(img); // Llamar a la función para clasificar la imagen 
           };
           // Establecer la fuente de la imagen como la leída desde el archivo
           img.src = e.target.result;
@@ -340,15 +357,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});
+
 
 //Funcion para obtener la ubicación.
-export function obtenerUbicacion() {
+ function obtenerUbicacion() {
   return new Promise((resolve, reject) => {
+    //Verificamos si el navegador lo soporta
     if (navigator.geolocation) {
+      //Pedimos la ubicacion del usuario
       navigator.geolocation.getCurrentPosition(
         (posicion) => {
           resolve({
+            //En caso de exito extraemos las coordenadas
             latitude: posicion.coords.latitude,
             longitude: posicion.coords.longitude,
           });
@@ -357,6 +377,10 @@ export function obtenerUbicacion() {
           console.error("Error al obtener la ubicación:", error);
           reject(error);
         },
+        //Opciones de geolocalizacion
+        //enableHighAccuracy: true → Intenta obtener la ubicación con la mayor precisión posible (usando GPS si está disponible).
+        //timeout: 10000 → Si no obtiene la ubicación en 10 segundos, se genera un error.
+        //maximumAge: 0 → No usa datos de ubicación en caché; siempre obtiene una nueva medición
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     } else {
@@ -364,8 +388,8 @@ export function obtenerUbicacion() {
     }
   });
 }
-
-export function crearContenedorMapa() {
+//Funcion para crear el contenedor del mapa y del tiempo actual
+function crearContenedorMapa() {
   const main = document.querySelector("main");
   main.innerHTML = "";
 
@@ -382,7 +406,8 @@ export function crearContenedorMapa() {
   contenedor.appendChild(mapaDiv);
   contenedor.appendChild(tiempoDiv);
   main.appendChild(contenedor);
-
+  
+//Obtenemos la ubicacion y mandamos los resultados a nuestras funciones de iniciar mapa y mostrarTiempoHoy
   obtenerUbicacion()
     .then((coords) => {
       iniciarMapa(coords.latitude, coords.longitude);
@@ -392,3 +417,4 @@ export function crearContenedorMapa() {
       console.error("No se pudo obtener la ubicación:", error);
     });
 }
+});

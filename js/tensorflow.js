@@ -3,7 +3,10 @@
 const mobilenet = window.mobilenet;
 
 let model = null;
-
+/**
+ * Función asíncrona para cargar el modelo MobileNet.
+ * Si el modelo ya está cargado, lo retorna; de lo contrario, lo carga y lo almacena.
+ */
 async function loadModel() {
   if (!model) {
     model = await mobilenet.load();
@@ -11,7 +14,11 @@ async function loadModel() {
   }
   return model;
 }
-
+/**
+ * Objeto que agrupa diferentes familias de peces junto con sus especies.
+ * Cada familia es una clave que contiene un arreglo de objetos, 
+ * donde cada objeto representa una especie con su nombre y un arreglo de tipos.
+ */
 const fishFamilies = {
   "Peces de arrecife": [
     { name: "Pez payaso", types: ["clownfish"] },
@@ -64,33 +71,49 @@ const fishFamilies = {
   ],
 };
 
+/**
+ * Función asíncrona que clasifica una imagen utilizando el modelo MobileNet.
+ * @param {HTMLElement} imgElement - El elemento de imagen a clasificar.
+ */
 export async function classifyImage(imgElement) {
-  // Cargar el modelo MobileNet y obtener las predicciones
+  // Carga el modelo MobileNet (si no está cargado, se carga en este momento).
   const model = await loadModel();
+  
+  // Selecciona el elemento HTML donde se mostrará el resultado de la clasificación.
   const resultsDiv = document.getElementById("results");
-  const predictions = await model.classify(imgElement); // Clasificación de la imagen con MobileNet
+  
+  // Realiza la clasificación de la imagen y obtiene las predicciones.
+  const predictions = await model.classify(imgElement);
 
-  let detectedFish = "No hay resultado posible para la imagen."; // Valor por defecto si no se detecta un pez
+  // Valor por defecto para indicar que no se pudo detectar ningún pez.
+  let detectedFish = "No hay resultado posible para la imagen.";
+ 
   let result = false;
 
+  // Recorre todas las predicciones obtenidas.
   for (let i = 0; i < predictions.length; i++) {
     const prediction = predictions[i];
+    // Si la probabilidad de la predicción es mayor a 0.8, se considera confiable.
     if (prediction.probability > 0.8) {
+      // Itera sobre cada familia de peces y sus especies definidas en el objeto fishFamilies.
       for (const [family, species] of Object.entries(fishFamilies)) {
         for (const { name, types } of species) {
+          // Comprueba si el nombre de la clase predicha incluye el tipo de pez (comparando en minúsculas).
           if (prediction.className.toLowerCase().includes(types[0])) {
+            // Si se encuentra una coincidencia, se actualiza el mensaje indicando la familia y el nombre de la especie detectada.
             detectedFish = `🐟 ¡Pez detectado! Pertenece a la familia "${family}" y es un ${name}.`;
-            result = true;
-            break; // Si encontramos una coincidencia, salimos del bucle
+            result = true; // Se marca que se ha encontrado un resultado.
+            break; // Sale del bucle de especies.
           }
         }
         if (result) {
-          break;
+          break; // Si ya se encontró un pez, sale del bucle de familias.
         }
       }
 
+      // Si no se encontró una coincidencia confiable con ninguna familia, se actualiza el mensaje con la clase detectada.
       if (!result) {
-        detectedFish = `🐟 ¡Pez no detectado!  El sistema ha detectado '${prediction.className}'.`;
+        detectedFish = `🐟 ¡Pez no detectado! El sistema ha detectado '${prediction.className}'.`;
       }
     }
   }
